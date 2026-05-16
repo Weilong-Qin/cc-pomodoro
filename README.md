@@ -108,6 +108,97 @@ For `/pomodoro start`, the prefix is passed through to the LLM along with the pr
 
 ---
 
+## Usage Examples
+
+### Starting a session
+
+```
+> /pomodoro start 25 Refactor the authentication module
+
+🍅 Pomodoro 已启动 · 25 分钟 · claude-code
+
+  Your prompt has been sent. Switch to your deep work —
+  you will not be notified until the timer ends.
+```
+
+After sending the prompt, the terminal goes quiet. No bell, no output flood, no tool-approval popups. The AI works in silence while you focus elsewhere.
+
+### Checking status mid-session
+
+```
+> /pomodoro status
+
+🍅 14:32 · claude-code (25min)
+```
+
+The countdown is the only thing visible. No spinner, no "AI is working" indicator, no completion state — just the time remaining.
+
+### Early exit
+
+```
+> /pomodoro stop
+
+还剩 14:32，确定结束？[y/N] y
+Pomodoro 已提前结束
+
+  ── AI Output ─────────────────────────────────
+  I've refactored the auth module. Here's what
+  changed: ...
+  ───────────────────────────────────────────────
+```
+
+Typing `n` (or just Enter) dismisses the prompt and the session continues undisturbed.
+
+### After the timer ends naturally
+
+```
+🔔 Pomodoro 完成 · 25 分钟专注结束
+
+  ── AI Output ─────────────────────────────────
+  (full response text revealed)
+  ───────────────────────────────────────────────
+```
+
+### Viewing stats
+
+```
+> /pomodoro stats
+
+  今日专注: 2h 15min    本周: 8h 40min
+
+  Claude Code   ████████████████ 6h 20min  (7 次)
+  Codex CLI     ██████ 2h 20min  (3 次)
+
+  最近 5 次:
+  05-16 14:30  50min  Claude Code  ✅ 完成
+  05-16 10:15  25min  Codex CLI    ⏹ 早结束
+  05-16 09:45  50min  Claude Code  ✅ 完成
+  05-15 16:20  50min  Claude Code  ⏹ 早结束
+  05-15 14:00  25min  Codex CLI    ✅ 完成
+```
+
+Add `--json` for machine-readable output: `/pomodoro stats --json`
+
+### Config management
+
+```
+> /pomodoro config
+
+{
+  "duration": 50,
+  "auto_start": false,
+  "auto_start_apps": ["claude-code", "codex-cli"],
+  "notify_on_complete": true,
+  "notify_sound": true
+}
+
+> /pomodoro config set duration 25
+
+duration = 25
+```
+
+---
+
 ## How It Works
 
 ```
