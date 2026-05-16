@@ -1,0 +1,7 @@
+{"file": "prd.md", "reason": "重写范围与不变约束"}
+{"file": "../../05-15-ai-cli-cc-pomodoro/prd.md", "reason": "原始 PRD：功能需求、架构决策、AC 标准"}
+{"file": "../../05-15-ai-cli-cc-pomodoro/research/claude-code-hooks.md", "reason": "Claude Code hook 能力边界"}
+{"file": "../../05-15-ai-cli-cc-pomodoro/research/codex-cli-hooks.md", "reason": "Codex CLI hook 能力边界"}
+{"file": "../../05-15-ai-cli-cc-pomodoro/research/pomodoro-stats-schemas.md", "reason": "Stats 数据模型 JSON schema"}
+{"file": "../../../.trellis/spec/backend/quality-guidelines.md", "reason": "设计决策与规范（语言无关，TS 同样适用）"}
+{"file": "../../../.trellis/spec/backend/error-handling.md", "reason": "错误处理模式与边缘情况矩阵"}

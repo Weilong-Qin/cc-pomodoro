@@ -1,0 +1,4 @@
+{"file": "prd.md", "reason": "验收标准与 DoD"}
+{"file": "../../05-15-ai-cli-cc-pomodoro/prd.md", "reason": "原始 AC1-AC8 验收标准"}
+{"file": "../../../.trellis/spec/backend/quality-guidelines.md", "reason": "零外部依赖、原子写入等质量规范"}
+{"file": "../../../.trellis/spec/backend/error-handling.md", "reason": "安全默认值、hook 崩溃不阻塞用户"}

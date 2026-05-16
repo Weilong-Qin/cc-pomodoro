@@ -2,24 +2,25 @@
 
 ## Prerequisites
 
-- **Python 3.10 or later** installed on your system.
+- **Node.js 18 or later** installed on your system.
+- **npm** (ships with Node.js).
 - **Claude Code** and/or **Codex CLI** installed and configured.
 
-Verify your Python version:
+Verify your Node.js version:
 
 ```bash
-python --version
-# Should print Python 3.10.x or higher
+node --version
+# Should print v18.x.x or higher
 ```
 
 ---
 
 ## Install cc-pomodoro
 
-### Via pip (recommended)
+### Via npm (recommended)
 
 ```bash
-pip install cc-pomodoro
+npm install -g cc-pomodoro
 ```
 
 ### From source
@@ -27,7 +28,9 @@ pip install cc-pomodoro
 ```bash
 git clone https://github.com/VLooong/cc-pomodoro.git
 cd cc-pomodoro
-pip install -e .
+npm install
+npm run build
+npm link
 ```
 
 Verify the installation:
@@ -64,9 +67,9 @@ This prints a JSON configuration block to stdout. The output contains absolute p
 ```json
 {
   "hooks": {
-    "UserPromptSubmit": "/path/to/site-packages/hooks/claude-code/user_prompt_submit.sh",
-    "PreToolUse": "/path/to/site-packages/hooks/claude-code/pre_tool_use.sh",
-    "Stop": "/path/to/site-packages/hooks/claude-code/stop.sh"
+    "UserPromptSubmit": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/user_prompt_submit.sh",
+    "PreToolUse": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/pre_tool_use.sh",
+    "Stop": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/stop.sh"
   }
 }
 ```
@@ -78,9 +81,9 @@ Open `~/.claude/settings.json` and add the hooks object. The file should look li
 ```json
 {
   "hooks": {
-    "UserPromptSubmit": "/path/to/site-packages/hooks/claude-code/user_prompt_submit.sh",
-    "PreToolUse": "/path/to/site-packages/hooks/claude-code/pre_tool_use.sh",
-    "Stop": "/path/to/site-packages/hooks/claude-code/stop.sh"
+    "UserPromptSubmit": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/user_prompt_submit.sh",
+    "PreToolUse": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/pre_tool_use.sh",
+    "Stop": "/path/to/node_modules/cc-pomodoro/hooks/claude-code/stop.sh"
   }
 }
 ```

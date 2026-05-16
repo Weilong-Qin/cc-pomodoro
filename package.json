@@ -1,0 +1,37 @@
+{
+  "name": "cc-pomodoro",
+  "version": "0.1.0",
+  "description": "AI CLI-native Pomodoro timer for Claude Code and Codex CLI",
+  "type": "module",
+  "bin": {
+    "cc-pomodoro": "./dist/cli.js",
+    "cc-pomodoro-hooks": "./dist/hooks.js"
+  },
+  "files": [
+    "dist/",
+    "hooks/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.8.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  },
+  "keywords": [
+    "pomodoro",
+    "timer",
+    "cli",
+    "claude-code",
+    "codex-cli",
+    "focus"
+  ],
+  "author": "VLooong",
+  "license": "MIT"
+}

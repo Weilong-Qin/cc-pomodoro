@@ -1,3 +1,3 @@
 @echo off
 REM Claude Code PreToolUse hook (Windows).
-python -m cc_pomodoro.hooks pre_tool_use
+node "%~dp0..\..\dist\hooks.js" pre_tool_use

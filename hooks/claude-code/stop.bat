@@ -1,3 +1,3 @@
 @echo off
 REM Claude Code Stop hook (Windows).
-python -m cc_pomodoro.hooks stop
+node "%~dp0..\..\dist\hooks.js" stop

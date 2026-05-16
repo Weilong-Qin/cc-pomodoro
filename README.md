@@ -29,10 +29,15 @@ Statistics are a welcome byproduct, not the core value. The value is the **CLI-n
 
 ## Quick Start
 
+### Prerequisites
+
+- **Node.js 18 or later** installed on your system.
+- **npm** (ships with Node.js).
+
 ### Installation
 
 ```bash
-pip install cc-pomodoro
+npm install -g cc-pomodoro
 ```
 
 Or install from source:
@@ -40,7 +45,9 @@ Or install from source:
 ```bash
 git clone https://github.com/VLooong/cc-pomodoro.git
 cd cc-pomodoro
-pip install -e .
+npm install
+npm run build
+npm link
 ```
 
 ### 1. Initialize hooks
@@ -119,13 +126,13 @@ For `/pomodoro start`, the prefix is passed through to the LLM along with the pr
              │ file I/O
              ▼
   ┌──────────────────────────────────┐
-  │  Python Core                     │
-  │  ┌─ timer.py  countdown + notify │
-  │  ├─ state.py  read/write state   │
-  │  ├─ stats.py  append/query       │
-  │  ├─ config.py manage config      │
-  │  ├─ notify.py OS alerts          │
-  │  └─ cli.py   user commands       │
+  │  TypeScript Core                 │
+  │  ┌─ timer.ts  countdown + notify │
+  │  ├─ state.ts  read/write state   │
+  │  ├─ stats.ts  append/query       │
+  │  ├─ config.ts manage config      │
+  │  ├─ notify.ts OS alerts          │
+  │  └─ cli.ts   user commands       │
   └──────────┬───────────────────────┘
              │ file state
              ▼
@@ -137,7 +144,7 @@ For `/pomodoro start`, the prefix is passed through to the LLM along with the pr
   └──────────────────────────────────┘
 ```
 
-**Three layers, file-backed, no HTTP daemon.** Hook scripts are thin wrappers that read and write JSON files. The Python core runs only when needed -- a lightweight timer process during a session, and stateless CLI commands otherwise. All state lives in `~/.config/cc-pomodoro/` as plain JSON and JSONL files.
+**Three layers, file-backed, no HTTP daemon.** Hook scripts are thin wrappers that read and write JSON files. The TypeScript core runs only when needed -- a lightweight timer process during a session, and stateless CLI commands otherwise. All state lives in `~/.config/cc-pomodoro/` as plain JSON and JSONL files.
 
 ---
 
