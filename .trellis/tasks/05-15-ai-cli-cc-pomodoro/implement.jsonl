@@ -1,0 +1,9 @@
+{"file": "prd.md", "reason": "完整需求文档：9 条 P0 需求 + 架构决策 + acceptance criteria"}
+{"file": "../../../.grill/cc-pomodoro.md", "reason": "13 轮 grilling 设计理由：为什么每个决策这样定、否决了什么备选"}
+{"file": "research/claude-code-hooks.md", "reason": "Claude Code hook 能力清单：R1/R3 ✅, R2 ❌（Stop hook 在输出渲染后触发）"}
+{"file": "research/codex-cli-hooks.md", "reason": "Codex CLI hook 能力清单：全 R1-R5 ✅（有 suppressOutput flag）"}
+{"file": "research/pomodoro-stats-schemas.md", "reason": "Stats 数据模型：10 字段 MVP JSONL schema + 存储格式决策"}
+{"file": "research/cli-countdown-display.md", "reason": "CLI 倒计时显示方案：DECSTBM / OSC / ANSI 重印等模式对比"}
+{"file": "../../../.trellis/spec/backend/index.md", "reason": "后端 spec 索引：目录结构、错误处理、日志等规范"}
+{"file": "../../../.trellis/spec/frontend/index.md", "reason": "前端 spec 索引：组件、状态管理、类型安全等规范"}
+{"file": "../../../.trellis/spec/guides/index.md", "reason": "思考指南索引：代码复用、跨层数据流等 AI 辅助指南"}

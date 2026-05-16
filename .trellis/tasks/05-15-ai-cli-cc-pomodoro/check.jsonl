@@ -1,0 +1,7 @@
+{"file": "prd.md", "reason": "验收标准检查清单：AC1-AC8 逐条对照 + Definition of Done"}
+{"file": "research/claude-code-hooks.md", "reason": "Claude Code 实现边界：确保不误用 Stop hook 做输出拦截"}
+{"file": "research/codex-cli-hooks.md", "reason": "Codex CLI 实现边界：suppressOutput + last_assistant_message 正确使用"}
+{"file": "research/pomodoro-stats-schemas.md", "reason": "Stats schema 一致性：验证 JSONL 字段完整 + query 输出格式"}
+{"file": "../../../.trellis/spec/backend/quality-guidelines.md", "reason": "后端质量规范：测试、lint、type-check 标准"}
+{"file": "../../../.trellis/spec/backend/error-handling.md", "reason": "错误处理规范：hook 脚本 exit code 语义 + 边界处理"}
+{"file": "../../../.trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "跨层一致性：hook 脚本 ↔ daemon ↔ 文件状态的数据流验证"}
