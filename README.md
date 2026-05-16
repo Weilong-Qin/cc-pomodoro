@@ -1,267 +1,140 @@
 # cc-pomodoro
 
-> CLI-native Pomodoro for AI agent workflows. Focus on your deep work -- let the AI wait.
+> CLI-native Pomodoro for AI agent workflows. Focus on your deep work — let the AI wait.
 
 ---
 
-## Philosophy
+## What It Looks Like
 
-AI coding assistants close the loop between thought and execution faster than any tool before them. But that speed comes with a new kind of cognitive tax: the moment the AI finishes a turn, a notification fires, dopamine hooks, and you tab back to the terminal -- mid-sentence in the paper you were reading, mid-thought in the design document you were writing. The context you were holding evaporates. This is the **reactive reflex arc**: AI finishes -> notification -> switch context -> lost flow. cc-pomodoro exists to sever that single arc, and nothing more.
+```
+You send a prompt                  You focus on real work         Timer ends, you come back
+┌────────────────────┐             ┌────────────────────┐        ┌────────────────────┐
+│                    │             │                    │        │                    │
+│ > /pomodoro start  │             │   📄 reading       │        │ 🔔 Pomodoro 完成   │
+│   25 Refactor auth │             │   a paper          │        │                    │
+│                    │  ───────►   │                    │  ───►  │ ── AI Output ────  │
+│ 🍅 25min · started │             │   (terminal quiet, │        │ I've refactored    │
+│   Switch to deep   │             │    no bell, no     │        │ the auth module... │
+│   work.            │             │    popups)         │        │                    │
+└────────────────────┘             └────────────────────┘        └────────────────────┘
+```
 
-The design centers on one principle: **protect the human's focus above all else.** The AI idling during a Pomodoro session is an acceptable cost. The tool does not lock your keyboard, hide your terminal, or shame you for reaching for the mouse. It trusts you to manage your own attention. It only silences the AI's side of the trigger -- the bells, the output floods, the tool-approval popups that yank you out of deep work.
+The AI finishes its work silently in the background. Tool approvals pass through automatically. You see nothing until the timer ends — or until you choose to check in.
 
-A Pomodoro session is a **commitment device you opt into**, not an automatic prison. That is why `auto_start` defaults to off. You decide when to focus. The tool simply makes it easier to follow through on that decision by removing the strongest external interruption: the AI itself.
-
-Statistics are a welcome byproduct, not the core value. The value is the **CLI-native interaction integration** -- dispatch-triggered sessions, completion shielding, auto-authorization, and soft early-exit. These are the mechanisms that no general-purpose Pomodoro app can provide because they require hooking into the AI CLI's own lifecycle. That is the reason this tool exists.
-
----
-
-## Features
-
-- **Dispatch-triggered**: Start a Pomodoro simply by sending a prompt. No separate timer app. No context switch.
-- **Completion shielding**: No bell, no notification, no flood of output until the timer ends. The AI finishes silently in the background.
-- **Auto-authorization**: Tool-approval requests (shell commands, file reads) are automatically allowed during a session. No popups, no interruptions.
-- **Cross-platform**: Supports both Claude Code and Codex CLI on macOS, Linux, and Windows.
-- **Soft early-exit**: "14 min remaining, confirm? [y/N]" -- respects your judgment without impulsive friction.
-- **Focus analytics**: Per-app daily and weekly session summaries via `/pomodoro stats`.
+```
+> /pomodoro status         > /pomodoro stop                > /pomodoro stats
+                           还剩 14:32，确定结束？[y/N] y     今日专注: 2h 15min
+🍅 14:32 · claude-code     Pomodoro 已提前结束               Claude Code  ████████ 1h 50min
+(25min)                                                   Codex CLI    ██ 25min
+```
 
 ---
 
 ## Quick Start
 
-### Prerequisites
-
-- **Node.js 18 or later** installed on your system.
-- **npm** (ships with Node.js).
-
-### Installation
-
 ```bash
 npm install -g cc-pomodoro
+cc-pomodoro hooks init --app claude-code    # paste output into .claude/settings.json
 ```
 
-Or install from source:
-
-```bash
-git clone https://github.com/VLooong/cc-pomodoro.git
-cd cc-pomodoro
-npm install
-npm run build
-npm link
-```
-
-### 1. Initialize hooks
-
-```bash
-cc-pomodoro hooks init --app claude-code
-```
-
-Copy the printed JSON object into your `.claude/settings.json` `hooks` section. Full step-by-step instructions are in [docs/INSTALL.md](docs/INSTALL.md).
-
-### 2. Start focusing
-
-In Claude Code or Codex CLI:
+Then, inside Claude Code or Codex CLI:
 
 ```
 /pomodoro start 25 Refactor authentication module
 ```
 
-Then switch to your deep work. Read a paper. Write a design doc. Come back when the timer ends.
-
-### 3. Check your stats
-
-```
-/pomodoro stats
-```
+Full install guide: [docs/INSTALL.md](docs/INSTALL.md).
 
 ---
 
-## Configuration
+## Features
 
-Configuration is read from `~/.config/cc-pomodoro/config.json`. You can also read and change settings from within the CLI using `/pomodoro config`.
+- **Dispatch-triggered**: Pomodoro starts when you send a prompt. No separate app.
+- **Completion shielding**: No bell, no output flood, no notification until the timer ends.
+- **Auto-authorization**: Tool-approval requests pass through silently during a session.
+- **Soft early-exit**: *"14 min remaining, confirm? [y/N]"* — respects your judgment.
+- **Focus analytics**: Per-app daily and weekly summaries via `/pomodoro stats`.
+- **Cross-platform**: Claude Code + Codex CLI. macOS, Linux, Windows.
 
-| Key                 | Type    | Default        | Description                                          |
-|---------------------|---------|----------------|------------------------------------------------------|
-| `duration`          | integer | 50             | Default session length in minutes                    |
-| `auto_start`        | boolean | false          | Auto-start a Pomodoro on every prompt                |
-| `auto_start_apps`   | array   | ["claude-code", "codex-cli"] | Which CLIs auto-start applies to       |
-| `notify_on_complete`| boolean | true           | Show OS desktop notification when timer ends         |
-| `notify_sound`      | boolean | true           | Play an audible alert on completion                  |
+---
 
-Full reference: [docs/CONFIG.md](docs/CONFIG.md).
+## Philosophy
+
+The AI finishes a turn, a notification fires, dopamine hooks, and you tab back — mid-sentence in the paper you were reading. This is the **reactive reflex arc**: AI finishes → notification → switch context → lost flow. cc-pomodoro severs that single arc by silencing the AI's side of the trigger. It does not lock your keyboard or hide your terminal — it trusts you to manage your own attention. It simply removes the strongest external interruption: the AI itself. A Pomodoro session is a **commitment device you opt into**, not an automatic prison.
 
 ---
 
 ## Commands
 
-All commands use the `/pomodoro` prefix and work inside Claude Code or Codex CLI.
-
-| Command                                | Description                                | Passed to LLM |
-|----------------------------------------|--------------------------------------------|---------------|
-| `/pomodoro start [minutes] <prompt>`   | Start a session and send the prompt        | Yes           |
-| `/pomodoro stop`                       | End the current session early              | No            |
-| `/pomodoro status`                     | Show remaining time                        | No            |
-| `/pomodoro stats [filter]`             | View focus analytics                       | No            |
-| `/pomodoro config [set key value]`     | Read or change settings                    | No            |
-
-For `/pomodoro start`, the prefix is passed through to the LLM along with the prompt text. The LLM sees and handles the full line.
+| Command                              | Description                        |
+|--------------------------------------|------------------------------------|
+| `/pomodoro start [min] <prompt>`     | Start session + send prompt        |
+| `/pomodoro stop`                     | End session early (with confirm)   |
+| `/pomodoro status`                   | Show remaining time                |
+| `/pomodoro stats [--json]`           | View focus analytics               |
+| `/pomodoro config [set key val]`     | Read or change settings            |
 
 ---
 
-## Usage Examples
+## Configuration
 
-### Starting a session
+`~/.config/cc-pomodoro/config.json` (also editable via `/pomodoro config`):
 
-```
-> /pomodoro start 25 Refactor the authentication module
+| Key                  | Type    | Default | Description                        |
+|----------------------|---------|---------|------------------------------------|
+| `duration`           | int     | 50      | Default session length (minutes)   |
+| `auto_start`         | bool    | false   | Auto-start on every prompt         |
+| `notify_on_complete` | bool    | true    | OS desktop notification on end     |
+| `notify_sound`       | bool    | true    | Audible alert on completion        |
 
-🍅 Pomodoro 已启动 · 25 分钟 · claude-code
-
-  Your prompt has been sent. Switch to your deep work —
-  you will not be notified until the timer ends.
-```
-
-After sending the prompt, the terminal goes quiet. No bell, no output flood, no tool-approval popups. The AI works in silence while you focus elsewhere.
-
-### Checking status mid-session
-
-```
-> /pomodoro status
-
-🍅 14:32 · claude-code (25min)
-```
-
-The countdown is the only thing visible. No spinner, no "AI is working" indicator, no completion state — just the time remaining.
-
-### Early exit
-
-```
-> /pomodoro stop
-
-还剩 14:32，确定结束？[y/N] y
-Pomodoro 已提前结束
-
-  ── AI Output ─────────────────────────────────
-  I've refactored the auth module. Here's what
-  changed: ...
-  ───────────────────────────────────────────────
-```
-
-Typing `n` (or just Enter) dismisses the prompt and the session continues undisturbed.
-
-### After the timer ends naturally
-
-```
-🔔 Pomodoro 完成 · 25 分钟专注结束
-
-  ── AI Output ─────────────────────────────────
-  (full response text revealed)
-  ───────────────────────────────────────────────
-```
-
-### Viewing stats
-
-```
-> /pomodoro stats
-
-  今日专注: 2h 15min    本周: 8h 40min
-
-  Claude Code   ████████████████ 6h 20min  (7 次)
-  Codex CLI     ██████ 2h 20min  (3 次)
-
-  最近 5 次:
-  05-16 14:30  50min  Claude Code  ✅ 完成
-  05-16 10:15  25min  Codex CLI    ⏹ 早结束
-  05-16 09:45  50min  Claude Code  ✅ 完成
-  05-15 16:20  50min  Claude Code  ⏹ 早结束
-  05-15 14:00  25min  Codex CLI    ✅ 完成
-```
-
-Add `--json` for machine-readable output: `/pomodoro stats --json`
-
-### Config management
-
-```
-> /pomodoro config
-
-{
-  "duration": 50,
-  "auto_start": false,
-  "auto_start_apps": ["claude-code", "codex-cli"],
-  "notify_on_complete": true,
-  "notify_sound": true
-}
-
-> /pomodoro config set duration 25
-
-duration = 25
-```
+Full reference: [docs/CONFIG.md](docs/CONFIG.md).
 
 ---
 
 ## How It Works
 
 ```
-  User types "/pomodoro start 25 Refactor auth"
+  /pomodoro start 25 Refactor auth
          │
          ▼
   ┌──────────────────────────────────┐
-  │  Hook Scripts (shell / .bat)     │
-  │  ┌─ UserPromptSubmit: writes     │
-  │  │  state.json, launches timer   │
-  │  ├─ PreToolUse: auto-allows      │
-  │  │  tool requests                │
-  │  └─ Stop: blocks completion      │
-  │       during session             │
+  │  Hook Scripts                    │
+  │  UserPromptSubmit → start timer  │
+  │  PreToolUse       → auto-allow   │
+  │  Stop             → block output │
   └──────────┬───────────────────────┘
              │ file I/O
              ▼
   ┌──────────────────────────────────┐
   │  TypeScript Core                 │
-  │  ┌─ timer.ts  countdown + notify │
-  │  ├─ state.ts  read/write state   │
-  │  ├─ stats.ts  append/query       │
-  │  ├─ config.ts manage config      │
-  │  ├─ notify.ts OS alerts          │
-  │  └─ cli.ts   user commands       │
+  │  timer · state · stats · config  │
+  │  notify · parser · hooks · cli   │
   └──────────┬───────────────────────┘
-             │ file state
+             │
              ▼
-  ┌──────────────────────────────────┐
-  │  File State (~/.config/cc-pomodoro)│
-  │  ├─ state.json     active session │
-  │  ├─ sessions.jsonl history        │
-  │  └─ config.json    settings       │
-  └──────────────────────────────────┘
+  ~/.config/cc-pomodoro/
+  ├── state.json      active session
+  ├── sessions.jsonl  history
+  └── config.json     settings
 ```
 
-**Three layers, file-backed, no HTTP daemon.** Hook scripts are thin wrappers that read and write JSON files. The TypeScript core runs only when needed -- a lightweight timer process during a session, and stateless CLI commands otherwise. All state lives in `~/.config/cc-pomodoro/` as plain JSON and JSONL files.
+**File-backed state, zero production dependencies, no HTTP daemon.** Hook scripts are 2-line shells. Core runs only when needed. All state in JSON files.
 
 ---
 
 ## Design Decisions
 
-**Why file-backed state instead of an HTTP daemon?**
+**File-backed, not daemon.** No port, no process monitor, no crash recovery. File I/O is atomic, debuggable with `cat`, and survives reboots.
 
-Simplicity and reliability. A background daemon means a port to reserve, a process to monitor, a crash to handle. File I/O is atomic on all three platforms, trivially debuggable (`cat state.json`), and survives reboots without orchestration. The timer process is a single `sleep` + write -- no event loop, no socket, no lock file.
+**Asymmetric R2 (output suppression).** Codex CLI has a native `suppressOutput` flag. Claude Code's `Stop` hook fires after terminal rendering. On Claude Code, suppression relies on blocking notifications and trusting the user to look away. Full context in [the PRD](.trellis/tasks/05-15-ai-cli-cc-pomodoro/prd.md).
 
-**Why asymmetry between Claude Code and Codex CLI?**
-
-Codex CLI provides a native `suppressOutput` flag in its hook system, making it straightforward to hide AI output during a session. Claude Code's hook system does not expose equivalent output suppression -- the `Stop` hook fires after rendering is complete. On Claude Code, the tool suppresses notifications and auto-allows tool requests, but the terminal output itself is hidden by the user looking away. This is an accepted asymmetry documented in the project's architecture decisions.
-
-**Why does `auto_start` default to off?**
-
-A Pomodoro is a commitment you make consciously. Autostarting on every prompt would turn the tool into an intrusive gatekeeper rather than a deliberate focus aid. The default respects that you should choose when to focus. If you find yourself starting sessions every time anyway, flip the setting on.
-
-**Why no input-locking or full-screen overlay?**
-
-The tool's philosophy is to protect focus, not enforce it. Locking the keyboard or covering the terminal would make the tool feel like a prison rather than a partner. You are trusted to manage your own attention. The tool removes the AI's ability to interrupt you -- the rest is up to you.
+**`auto_start` off by default.** A Pomodoro is a commitment you make consciously — not a gatekeeper that triggers on every prompt.
 
 ---
 
 ## Contributing
 
-Issues and feature requests are welcome. For significant changes, please open a discussion first to align on design and scope.
+Issues and PRs welcome. For significant changes, please open a discussion first.
 
 ---
 
